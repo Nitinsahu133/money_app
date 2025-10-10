@@ -1,34 +1,32 @@
-version: "3.9"
+version: '3.9'
 
 services:
   backend:
     build: ./backend
-    container_name: mern-backend
+    container_name: money_backend
     ports:
       - "8000:8000"
     environment:
-      - NODE_ENV=production
-      - MONGO_URI=mongodb://mongo:27017/mern_money_app
       - PORT=8000
+      - MONGO_URI=mongodb://mongo:27017/mern_money_app
     depends_on:
       - mongo
 
-  frontend:
-    build: ./frontend
-    container_name: mern-frontend
-    ports:
-      - "3000:80"
-    depends_on:
-      - backend
-
   mongo:
-    image: mongo:6
-    container_name: mern-mongo
-    restart: always
+    image: mongo:7
+    container_name: mongo
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+
+  frontend:
+    build: ./frontend
+    container_name: money_frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
 
 volumes:
   mongo_data:
