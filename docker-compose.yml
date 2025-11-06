@@ -24,8 +24,20 @@ services:
     build: ./frontend
     container_name: money_frontend
     ports:
-      - "5173:5173"
+      - "80"
     depends_on:
+      - backend
+    
+  nginx:
+    image: nginx:stable-alpine
+    container_name: money_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - frontend
       - backend
 
 volumes:

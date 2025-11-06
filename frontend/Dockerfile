@@ -13,8 +13,12 @@ RUN npm install
 # Copy source code
 COPY . .
 
+RUN npm run build
+
 # Expose Vite port
-EXPOSE 5173
+FROM nginx:stable-alpine
+COPY --from=0 /app/dist /usr/share/nginx/html
+EXPOSE 80
 
 # Start Vite dev server
-CMD ["npm", "run", "dev"]
+CMD ["nginx", "-g", "daemon off;"]
